@@ -2,26 +2,56 @@
 <meta charset="utf-8">
 <title>Hallo Welt</title>
 <body>
-<script src="..\scripts\pixi.min.js"></script>
+<script src="scripts\pixi.min.js"></script>
 <script>
 
-//Test that Pixi is working
-console.log(PIXI);
-	
-	//	Create the renderer
-	var renderer = PIXI.autoDetectRenderer(256, 256);
+	//Test that Pixi is working
+	console.log(PIXI);
 
-	//	Add the canvas to the HTML document
+	//Aliases
+	var Container = PIXI.Container,
+		autoDetectRenderer = PIXI.autoDetectRenderer,
+		loader = PIXI.loader,
+		resources = PIXI.loader.resources,
+		Sprite = PIXI.Sprite;
+
+	//Create a Pixi stage and renderer and add the 
+	//renderer.view to the DOM
+	var stage = new Container(),
+		renderer = autoDetectRenderer(256, 256);
 	document.body.appendChild(renderer.view);
 
-	//	Create a container object called the `stage`
-	//	agrupa objetos 
-	var stage = new PIXI.Container();
+	//load an image and run the `setup` function when it's done
+	loader
+	  .add("images/tileset.png")
+	  .load(setup);
 
-	//	Tell the `renderer` to `render` the `stage`
-	//	muestra objetos colocados en el contenedor
-	renderer.render(stage);
-	
+	//This `setup` function will run when the image has loaded
+	function setup() {
+		//Create the `tileset` sprite from the texture
+		var texture = TextureCache["images/tileset.png"];
+
+		//Create a rectangle object that defines the position and
+		//size of the sub-image you want to extract from the texture
+		var rectangle = new Rectangle(192, 128, 64, 64);
+
+		//Tell the texture to use that rectangular section
+		texture.frame = rectangle;
+
+		//Create the sprite from the texture
+		var rocket = new Sprite(texture);
+
+		//Position the rocket sprite on the canvas
+		rocket.x = 32;
+		rocket.y = 32;
+
+		//Add the rocket to the stage
+		stage.addChild(rocket);
+
+		//Render the stage   
+		renderer.render(stage);
+	}
+
 </script>
 
 	<p>Tengo mis dudas..
