@@ -1,0 +1,74 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Sprite desde tileset sub-image</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    TextureCache = PIXI.utils.TextureCache,
+    Sprite = PIXI.Sprite,
+    Rectangle = PIXI.Rectangle;
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(512, 512);
+document.body.appendChild(renderer.view);
+
+//load an image and run the `setup` function when it's done
+loader
+  .add("images/sumadotileset.png")
+  .load(setup);
+
+function setup() {
+
+	//Create the `tileset` sprite from the texture
+	var texture = TextureCache["images/sumadotileset.png"];
+	//	ahora cargo tablero
+	//Create a rectangle object that defines the position and
+	//size of the sub-image you want to extract from the texture
+	var rectangle = new Rectangle(0,78,420,420);
+	//Tell the texture to use that rectangular section
+	texture.frame = rectangle;
+	//Create the sprite from the texture
+	var tablero = new Sprite(texture);
+	//Position the tablero sprite on the canvas
+	tablero.x = 32;
+	tablero.y = 32;
+	//Add the tablero to the stage
+	stage.addChild(tablero);
+
+
+	//Create the `tileset` sprite from the texture
+	var texture01 = TextureCache["images/sumadotileset.png"];
+	//Create a rectangle object that defines the position and
+	//size of the sub-image you want to extract from the texture
+	var rectangle01 = new Rectangle(57,17,37,45);
+	//Tell the texture to use that rectangular section
+	//	texture01.frame = rectangle01;
+	//	//Create the sprite from the texture
+	//	var num01 = new Sprite(texture);
+	//	//Position the num01 sprite on the canvas
+	//	num01.x = 420;
+	//	num01.y = 32;
+	//	//Add the num01 to the stage
+	//	stage.addChild(num01);
+
+
+	//border around the canvas 
+	renderer.view.style.border = "5px dashed black";
+
+	//To change the background color
+	renderer.backgroundColor = 0xffffff;
+
+	//To resize the canvas
+	//renderer.resize(512, 512);
+
+	//Render the stage   
+	renderer.render(stage);
+}
+</script>
+</body>

@@ -1,0 +1,138 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Sprite desde un atlas de texture</title>
+<body>
+<script src="../pixi.js/bin/pixi.min.js"></script>
+<script src="../pixi.js/bin/tink.js"></script>
+<script>
+
+//Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    resources = PIXI.loader.resources,
+    TextureCache = PIXI.utils.TextureCache,
+    Texture = PIXI.Texture,
+    Sprite = PIXI.Sprite;
+
+	//	Rectangle = (PIXI.Rectangle);
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(576, 512);
+	document.body.appendChild(renderer.view);
+
+	//load a JSON file and run the `setup` function when it's done
+	loader
+	  .add("images/sumadotileset.json")
+	  .load(setup);
+
+	//Define variables that might be used in more than one function
+	var tablero, num01, num02, num03, id;
+
+function setup() {
+
+	//There are 3 ways to make sprites from textures atlas frames
+
+	//	1. Access the `TextureCache` directly. esto sería el piso
+	var tableroTexture = TextureCache["sumadotileset.png"];
+	tablero = new Sprite(tableroTexture);
+	tablero.x = 32
+	tablero.y = 32
+	stage.addChild(tablero);
+
+	//	2. Access the texture using throuhg the loader's `resources`:
+	num01 = new Sprite(
+	resources["images/sumadotileset.json"].textures["num01.png"]
+	);
+	num01.x = 500;
+	num01.y = 10
+	stage.addChild(num01);
+
+	num02 = new Sprite(
+	resources["images/sumadotileset.json"].textures["num02.png"]
+	);
+	num02.x = 500;
+	num02.y = 60
+	stage.addChild(num02);
+
+	num03 = new Sprite(
+	resources["images/sumadotileset.json"].textures["num03.png"]
+	);
+	num03.x = 500;
+	num03.y = 110
+	stage.addChild(num03);
+
+	//
+	//	//	3. Create an optional alias called `id` for all the texture atlas 
+	//	//	frame id textures.
+	//	id = PIXI.loader.resources["images/sumadotileset.json"].textures; 
+	//
+	//	//Make the num02 box using the alias
+	//	num02 = new Sprite(id["num02.png"]);
+	//	stage.addChild(num02);
+	//
+	//	//Position the num02 next to the right edge of the canvas
+	//	num02.x = stage.width - num02.width - 48;
+	//	num02.y = stage.height / 2 - num02.height / 2;
+	//	stage.addChild(num02);
+	//
+	//	//Make the exit num03
+	//	num03 = new Sprite(id["num03.png"]); 
+	//	num03.position.set(32, 0);
+	//	stage.addChild(num03);
+
+
+	//border around the canvas 
+	renderer.view.style.border = "5px  green";
+
+	//To change the background color
+	renderer.backgroundColor = 0xddeeff;
+
+	//To resize the canvas
+	//	renderer.resize(512, 512);
+
+	//Render the stage   
+	renderer.render(stage);
+}
+
+//The `randomInt` helper function
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+//////////////////////////////////////////
+//	aqui comienza el uso de librería tlink
+//////////////////////////////////////////
+	let t = new Tink(PIXI, renderer.view);
+
+function gameLoop(){
+
+  //Start the loop
+  requestAnimationFrame(gameLoop);
+
+  //Update Tink
+  t.update();
+
+	//	pointer.x = () => console.log("pointer x " + pointer.x);
+	console.log("pointer x " + pointer.x);
+
+
+  //Optionally, you probably also want to render your root Pixi
+  //container, the `stage` object, in this loop:
+  //renderer.render(stage);
+}
+
+	//	preparamos un puntero para el mouse o la pantalla tactil
+	pointer = t.makePointer();
+
+	pointer.press = () => console.log("The pointer was pressed");
+	pointer.release = () => console.log("The pointer was released");
+	pointer.tap = () => console.log("The pointer was tapped");
+
+
+</script>
+</body>
+
+

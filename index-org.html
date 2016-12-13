@@ -1,0 +1,118 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Hallo Welt</title>
+<body>
+<script src="../pixi.js/bin/pixi.js"></script>
+<script>
+
+	//Test that Pixi is working
+	console.log(PIXI);
+
+	//Aliases
+	var Container = PIXI.Container,
+		Rectangle = (PIXI.Rectangle),
+		Sprite = PIXI.Sprite,
+		Texture = PIXI.Texture,
+		TextureCache = PIXI.utils.TextureCache,
+		autoDetectRenderer = PIXI.autoDetectRenderer,
+		loader = PIXI.loader,
+		resources = PIXI.loader.resources;
+
+
+	//Create a Pixi stage and renderer and add the 
+	//renderer.view to the DOM
+	var stage = new Container(),
+		renderer = autoDetectRenderer(256, 256);
+		document.body.appendChild(renderer.view);
+
+	//load a JSON file and run the `setup` function when it's done
+	loader
+		.add("images/tablero-numeros-sumado.json")
+		.load(setup);
+
+
+	//	Define any variables that are used in more than one function
+	var num01, num02, num03, num04, num05, num06, num07, num08, num09, tablero ;
+	
+
+	//This `setup` function will run when the image has loaded
+	function setup() {
+
+	//There are 3 ways to make sprites from textures atlas frames
+
+	//	1. Access the `TextureCache` directly
+	//	esto sería el piso
+		var tableroTexture = TextureCache["tablero.png"];
+		tablero = new Sprite(tableroTexture);
+		stage.addChild(tablero);
+
+		var num01Texture = TextureCache["num01.png"];
+		num01 = new Sprite(num01Texture);
+		stage.addChild(num01);
+
+		var num02Texture = TextureCache["num02.png"];
+		num02 = new Sprite(num02Texture);
+		stage.addChild(num02);
+
+		var num01Texture = TextureCache["num01.png"];
+		num01 = new Sprite(num01Texture);
+		stage.addChild(num01);
+
+	//	por ahora esta tecnica no la uso
+	//	2. Access the texture using throuhg the loader's `resources`:
+	//			explorer = new Sprite(
+	//			resources["images/tablero-numeros-sumado.json"].textures["explorer.png"]
+	//			);
+	//			explorer.x = 68;
+
+	//Center the explorer vertically
+	//			explorer.y = stage.height / 2 - explorer.height / 2;
+	//			stage.addChild(explorer);
+
+
+	//	3. Create an optional alias called `id` for all the texture atlas frame id textures.
+	id = PIXI.loader.resources["images/tablero-numeros-sumado.json"].textures; 
+
+//	//Make the num01 box using the alias
+//		num01 = new Sprite(id["num01.png"]);
+//		stage.addChild(num01);
+//
+//	//Position the num01 next to the right edge of the canvas
+//		num01.x = stage.width - num01.width - 48;
+//		num01.y = stage.height / 2 - num01.height / 2;
+//		stage.addChild(num01);
+
+
+	//Make the nums
+		var	spacing = 48,
+			xOffset = 150;
+	//Make a num
+	num02 = new Sprite(id["num02.png"]);
+
+	//	Space each num horizontally according to the `spacing` value.
+	//	`xOffset` determines the point from the left of the screen
+	//at which the first num should be added.
+		var x = spacing * i + xOffset;
+
+	//Give the num a random y position
+	//(`randomInt` is a custom function - see below)
+		var y = randomInt(0, stage.height - num.height);
+
+	//Set the num's position
+		num02.x = x;
+		num02.y = y;
+
+	//Add the num sprite to the stage
+		stage.addChild(num);
+
+
+		//Render the stage   
+		renderer.render(stage);
+
+	}
+
+</script>
+
+	<p>Tengo mis dudas..!
+
+</body>

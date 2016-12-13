@@ -52,66 +52,18 @@ function setup() {
 
   stage.addChild(tablero);
 
-  rectangle = new Rectangle(89,2,32,32);
-  texture.frame = rectangle;
-  var num01 = new Sprite(texture);
-  num01.x = 64;
-  num01.y = 99;
+  //	rectangle = new Rectangle(89,2,32,32);
+  //	texture.frame = rectangle;
+  //	var num01 = new Sprite(texture);
+  //	num01.x = 64;
+  //	num01.y = 99;
 
-  stage.addChild(num01);
+  //	stage.addChild(num01);
 
   //Render the stage   
   renderer.render(stage);
 }
 
-
-
-
-
-
-
-	//	Define any variables that are used in more than one function
-	var num01, num02, num03, num04, num05, num06, num07, num08, num09, tablero ;
-	
-	
-	//This `setup` function will run when the image has loaded
-	function setup() {
-
-	//There are 3 ways to make sprites from textures atlas frames
-
-	//	1. Access the `TextureCache` directly 
-		var tableroTexture = TextureCache["tablero.png"];
-		tablero = new Sprite(tableroTexture);
-		stage.addChild(tablero);
-
-		var num01Texture = TextureCache["num01.png"];
-		num01 = new Sprite(num01Texture);
-		stage.addChild(num01);
-
-		var num02Texture = TextureCache["num02.png"];
-		num02 = new Sprite(num02Texture);
-		stage.addChild(num02);
-
-		var num03Texture = TextureCache["num03.png"];
-		num03 = new Sprite(num03Texture);
-		stage.addChild(num03);
-
-	//	por ahora esta tecnica no la uso
-	//	2. Access the texture using throuhg the loader's `resources`:
-	//			explorer = new Sprite(
-	//			resources["images/tablero-numeros-sumado.json"].textures["explorer.png"]
-	//			);
-	//			explorer.x = 68;
-
-	//Center the explorer vertically
-	//			explorer.y = stage.height / 2 - explorer.height / 2;
-	//			stage.addChild(explorer);
-
-
-	//Render the stage   
-	renderer.render(stage);
-
-}
 
 </script>
 

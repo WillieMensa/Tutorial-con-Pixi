@@ -1,0 +1,16 @@
+	num03 = new Sprite(
+	resources["images/sumadotileset.json"].textures["num03.png"]
+	);
+	num03.x = 500;
+	num03.y = 110
+	stage.addChild(num03);
+
+
+"num03.png":
+{
+	"frame": {"x":145,"y":14,"w":42,"h":53},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":53},
+	"sourceSize": {"w":42,"h":53}
+},

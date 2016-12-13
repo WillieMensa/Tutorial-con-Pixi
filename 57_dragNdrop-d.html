@@ -1,0 +1,136 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Drag N Drop - c </title>
+<body>
+<script src="../pixi.js/bin/pixi.min.js"></script>
+
+<script>
+
+//	sigo ejemplo de 
+//		http://pixijs.github.io/examples/index.html#/demos/dragging.js
+//		y le agrego los sprites tomados del texture atlas
+
+//	Aliases
+var Container = PIXI.Container,
+    autoDetectRenderer = PIXI.autoDetectRenderer,
+    loader = PIXI.loader,
+    resources = PIXI.loader.resources,
+    TextureCache = PIXI.utils.TextureCache,
+    Texture = PIXI.Texture,
+    Sprite = PIXI.Sprite;
+
+	//	Rectangle = (PIXI.Rectangle);
+
+//Create a Pixi stage and renderer and add the 
+//renderer.view to the DOM
+var stage = new Container(),
+    renderer = autoDetectRenderer(800, 600);
+	document.body.appendChild(renderer.view);
+
+	//load a JSON file and run the `setup` function when it's done
+	loader
+	  .add("images/sumadotileset.json")
+	  .load(setup);
+
+	//Define variables that might be used in more than one function
+	var tablero, num01, num02, num03, id;
+
+function setup() {
+
+	//	1. Access the `TextureCache` directly. esto sería el piso
+	//	creacion del tablero con metodo 1
+	var tableroTexture = TextureCache["sumadotileset.png"];
+	tablero = new Sprite(tableroTexture);
+	tablero.x = 32
+	tablero.y = 32
+	stage.addChild(tablero);
+
+	//	Creacion de numeros con el metodo 2
+	//	2. Access the texture using throuhg the loader's `resources`:
+	num01 = new Sprite(	resources["images/sumadotileset.json"].textures["num01.png"] );
+
+	// enable the bunny to be interactive... this will allow it to respond to mouse and touch events
+    num01.interactive = true;
+
+    // this button mode will mean the hand cursor appears when you roll over the num with your mouse
+    num01.buttonMode = true;
+
+    // center the num's anchor point
+    num01.anchor.set(0.5);
+
+    // make it a bit bigger, so it's easier to grab
+    num01.scale.set(1.0);
+
+    // setup events
+    num01
+        // events for drag start
+        .on('mousedown', onDragStart)
+        .on('touchstart', onDragStart)
+        // events for drag end
+        .on('mouseup', onDragEnd)
+        .on('mouseupoutside', onDragEnd)
+        .on('touchend', onDragEnd)
+        .on('touchendoutside', onDragEnd)
+        // events for drag move
+        .on('mousemove', onDragMove)
+        .on('touchmove', onDragMove);
+
+    // move the sprite to its designated position
+	num01.position.x = 500;
+	num01.position.y = 40
+
+    // add it to the stage
+	stage.addChild(num01);
+}
+
+requestAnimationFrame( animate );
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+	//border around the canvas 
+	renderer.view.style.border = "5px  green";
+
+	//To change the background color
+	renderer.backgroundColor = 0xddeeff;
+
+    // render the stage
+    renderer.render(stage);
+}
+
+function onDragStart(event)
+{
+    // store a reference to the data
+    // the reason for this is because of multitouch
+    // we want to track the movement of this particular touch
+    this.data = event.data;
+    this.alpha = 0.5;
+    this.dragging = true;
+}
+
+function onDragEnd()
+{
+    this.alpha = 1;
+
+    this.dragging = false;
+
+    // set the interaction data to null
+    this.data = null;
+}
+
+function onDragMove()
+{
+    if (this.dragging)
+    {
+        var newPosition = this.data.getLocalPosition(this.parent);
+        this.position.x = newPosition.x;
+        this.position.y = newPosition.y;
+    }
+}
+
+
+</script>
+</body>
+
+
